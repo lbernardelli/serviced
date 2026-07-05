@@ -1,0 +1,13 @@
+/.bundle/
+/vendor/bundle/
+/pkg/
+/tmp/
+/coverage/
+/doc/
+/.yardoc/
+Gemfile.lock
+*.gem
+.DS_Store
+.idea/
+.vscode/
+.claude/

@@ -1,0 +1,20 @@
+<svg viewBox="0 0 1200 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="serviced: typed, immutable service objects for Ruby">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2DD4BF"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1200" height="280" rx="24" fill="#0F1729"/>
+  <text x="72" y="150" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="104" font-weight="800" letter-spacing="-3" fill="#F8FAFC">serviced</text>
+  <rect x="76" y="168" width="466" height="6" rx="3" fill="#2DD4BF"/>
+  <text x="78" y="214" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="30" font-weight="400" fill="#94A3B8">Typed, immutable service objects for Ruby.</text>
+  <text x="78" y="248" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#64748B">Success / Failure results  ·  composable flows  ·  transactions</text>
+  <g fill="none" stroke="#2DD4BF" stroke-width="3">
+    <rect x="866" y="108" width="62" height="62" rx="14"/>
+    <rect x="984" y="108" width="62" height="62" rx="14"/>
+    <rect x="1102" y="108" width="62" height="62" rx="14" fill="#2DD4BF" fill-opacity="0.15"/>
+    <line x1="930" y1="139" x2="980" y2="139" marker-end="url(#arrow)"/>
+    <line x1="1048" y1="139" x2="1098" y2="139" marker-end="url(#arrow)"/>
+  </g>
+  <path d="M1122 138 l7 9 l15 -19" fill="none" stroke="#2DD4BF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
