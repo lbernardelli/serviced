@@ -1,0 +1,32 @@
+name: Release
+
+# Publishes the gem to RubyGems when a version tag (e.g. v0.1.0) is pushed,
+# using RubyGems Trusted Publishing (OIDC): no API key or OTP is stored here.
+# Configure the trusted publisher once at
+# https://rubygems.org/gems/serviced/trusted_publishers (or as a pending
+# publisher before the first release) with repository lbernardelli/serviced
+# and workflow release.yml.
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    name: Build and publish to RubyGems
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # create the GitHub release for the tag
+      id-token: write # RubyGems trusted publishing (OIDC)
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+          bundler-cache: true
+      - name: Build and push gem via trusted publishing
+        uses: rubygems/release-gem@v1

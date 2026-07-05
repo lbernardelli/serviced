@@ -3,6 +3,7 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/lbernardelli/serviced/actions/workflows/ci.yml"><img src="https://github.com/lbernardelli/serviced/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="https://rubygems.org/gems/serviced"><img src="https://img.shields.io/gem/v/serviced?color=CC342D" alt="Gem Version"></a>
   <img src="https://img.shields.io/badge/ruby-%3E%3D%203.1-CC342D" alt="Ruby >= 3.1">
   <a href="LICENSE.txt"><img src="https://img.shields.io/badge/license-MIT-blue" alt="License: MIT"></a>
