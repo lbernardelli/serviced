@@ -82,4 +82,41 @@ RSpec.describe Serviced::Typed do
       expect(obj.sink).not_to be_frozen
     end
   end
+
+  describe "a class as the type (instance-of enforcement)" do
+    let(:animal) { Class.new }
+    let(:typed_class) do
+      pet_class = animal
+      Class.new do
+        include Serviced::Typed
+
+        attribute :pet, pet_class
+        def self.name = "PetOwner"
+      end
+    end
+
+    it "accepts an instance of the class" do
+      expect(typed_class.new(pet: animal.new)).to be_valid
+    end
+
+    it "accepts a subclass instance" do
+      subclass = Class.new(animal)
+      expect(typed_class.new(pet: subclass.new)).to be_valid
+    end
+
+    it "allows nil (make it required with presence: true)" do
+      expect(typed_class.new).to be_valid
+    end
+
+    it "rejects a value of the wrong type" do
+      obj = typed_class.new(pet: "not an animal")
+      expect(obj).not_to be_valid
+      expect(obj.errors.full_messages.join).to match(/Pet must be a/)
+    end
+
+    it "shares the object by reference, without coercing it" do
+      pet = animal.new
+      expect(typed_class.new(pet: pet).pet).to be(pet)
+    end
+  end
 end

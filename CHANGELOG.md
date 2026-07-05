@@ -25,10 +25,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `quote_column`, `sanitize`, `count_of`), and raises `Serviced::InvalidQuery`
   on invalid input.
 - `Serviced::Typed`: shared concern providing typed, immutable, validatable
-  attributes; included by both `Serviced::Service` and `Serviced::Query`.
-  Inputs are isolated by default: value-like data (arrays, hashes, sets,
-  strings) is captured as a deep-frozen snapshot at construction, while objects
-  with identity (records) are shared by reference. Opt out per attribute with
-  `isolate: false`.
+  attributes; included by both `Serviced::Service` and `Serviced::Query`. An
+  attribute type can be an ActiveModel type symbol (coerced) or a class (the
+  value must be an instance of it: ActiveRecord records, POROs, anything;
+  subclasses count, `nil` is allowed). Inputs are isolated by default:
+  value-like data (arrays, hashes, sets, strings) is captured as a deep-frozen
+  snapshot at construction, while objects with identity (records) are shared by
+  reference. Opt out per attribute with `isolate: false`.
 - `Serviced.configure` with a pluggable `transaction_handler` (defaults to
   `ActiveRecord::Base.transaction` when ActiveRecord is available).

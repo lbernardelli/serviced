@@ -43,6 +43,31 @@ RSpec.describe Serviced::Service do
     end
   end
 
+  describe "object attribute types (a class as the type)" do
+    let(:account_class) { Class.new }
+    let(:service) do
+      klass = account_class
+      Class.new(described_class) do
+        attribute :account, klass
+        def self.name = "NeedsAccount"
+        def call = success(account)
+      end
+    end
+
+    it "passes the object through when the type matches" do
+      account = account_class.new
+      result = service.call(account:)
+      expect(result).to be_success
+      expect(result.value).to be(account)
+    end
+
+    it "fails with :invalid when the object is the wrong type" do
+      result = service.call(account: "nope")
+      expect(result.reason).to eq(:invalid)
+      expect(result.error.full_messages.join).to match(/Account must be a/)
+    end
+  end
+
   describe "immutability" do
     it "does not expose public writers" do
       service = create_patient.new(name: "Ada", age: 1)

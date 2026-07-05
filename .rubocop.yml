@@ -10,6 +10,10 @@ Style/StringLiteralsInInterpolation:
   EnforcedStyle: double_quotes
 
 Metrics/BlockLength:
+  # ActiveSupport::Concern's `class_methods do ... end` is a method-definition
+  # container, not a logic block, so it should not be length-capped.
+  AllowedMethods:
+    - class_methods
   Exclude:
     - "spec/**/*"
     - "*.gemspec"

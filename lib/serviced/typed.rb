@@ -73,17 +73,22 @@ module Serviced
       # ActiveModel::Attributes.attribute, plus +isolate:+.
       #
       # @param name [Symbol] attribute name
-      # @param type [Symbol, ActiveModel::Type::Value, nil] the cast type
+      # @param type [Symbol, ActiveModel::Type::Value, Class, Module, nil] an
+      #   ActiveModel type symbol/instance (the value is coerced), or a
+      #   class/module (the value must be an instance of it: records, POROs,
+      #   anything), or nil for an untyped pass-through
       # @param isolate [Boolean] capture an immutable snapshot of the value at
       #   construction (default); pass +false+ to share it by reference
       # @param options [Hash] forwarded to ActiveModel (e.g. +default:+)
       def attribute(name, type = nil, isolate: true, **options)
-        if type.nil?
+        klass = type if type.is_a?(Module)
+        if type.nil? || klass
           super(name, **options)
         else
           super(name, type, **options)
         end
         private(:"#{name}=")
+        validate_instance_of(name, klass) if klass
         return unless isolate
 
         isolated_attribute_names << name.to_s
@@ -98,6 +103,17 @@ module Serviced
           return instance_variable_get(ivar) if instance_variable_defined?(ivar)
 
           instance_variable_set(ivar, Serviced.snapshot(super()))
+        end
+      end
+
+      # Adds a validation that the attribute holds an instance of +klass+
+      # (subclasses count). nil is allowed; require it with +presence: true+.
+      def validate_instance_of(name, klass)
+        validate do
+          value = public_send(name)
+          next if value.nil? || value.is_a?(klass)
+
+          errors.add(name, "must be an instance of #{klass.name || klass.inspect}")
         end
       end
     end

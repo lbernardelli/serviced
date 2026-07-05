@@ -163,6 +163,26 @@ report.limit      # => 50          (default)
 
 Unknown keys are ignored, which is what lets a service drop cleanly into a [flow](#flows) without matching the exact shape of the context.
 
+Types are not just scalars. A symbol coerces the value through an ActiveModel type; a class requires the value to be an instance of it, so you can type an attribute as an ActiveRecord record, a plain object, or anything:
+
+```ruby
+class ChargeSubscription < Serviced::Service
+  attribute :account, Account  # must be an Account (record, PORO, subclass), or nil
+  attribute :coupon,  Coupon   # must be a Coupon, or nil
+  attribute :cents,   :integer # coerced to Integer
+
+  def call
+    # account and coupon are guaranteed to be the right type here
+    success(account.charge!(cents, coupon:))
+  end
+end
+
+ChargeSubscription.call(account: "oops", cents: 500)
+# => Failure(:invalid), errors: ["Account must be an instance of Account"]
+```
+
+The check allows `nil` (make it required with `validates :account, presence: true`) and accepts subclasses. The object is shared by reference, not coerced, so a record stays the same record.
+
 ### Immutability that actually holds
 
 Inputs are read-only. There is no writer to reassign them:
